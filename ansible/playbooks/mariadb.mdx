@@ -1,0 +1,91 @@
+---
+title: 'Maria DB'
+icon: "database"
+description: '
+MariaDB is an open-source relational database management system (RDBMS) that originated as a fork of MySQL, designed for high performance, scalability, and compatibility with MySQL databases.'
+---
+
+<Info>
+  Depends on a community role [Ansible
+  MariaDB](https://github.com/rockandska/ansible-role-rabbitmq)
+  <br />
+  Note: This playbook still has problem with Debain 12 (Bookworm){" "}
+</Info>
+
+## Installing MariaDB
+
+1. Ensure that your target host is exist in inventory
+2. Inside the playbooks, specify host your wanna install redis on.
+
+<ResponseField name="mysql_database" type="string" required>
+  Example: `devuser`
+</ResponseField>
+
+<ResponseField name="mysql_user_password" type="string" required>
+  Example: `1234`
+</ResponseField>
+
+<ResponseField name="mysql_root_password" type="string" required>
+  Example: `1234`
+</ResponseField>
+
+<ResponseField name="mysql_user" type="string" required>
+  Example: `devuser`
+</ResponseField>
+
+<ResponseField name="domain" type="string" required>
+  root of domain name for sql user host. Example: `wiresk.com` `wiresk.org`
+</ResponseField>
+
+```bash
+ansible-playbook playbooks/mariadb.yaml -i inventory.yaml
+```
+
+The following playbooks will perform the following tasks
+
+- Install MariaDB
+  - Allow remote connections
+  - Create main database
+  - Create job database
+  - Create database user
+  - Grand user privilege
+- Create uuidfrombin and uuidtobin function
+
+## MariaDB Server
+
+<Info>
+  You must have openstack credentials to order a server. More on [Order new
+  server](openstack#order-a-server)
+</Info>
+<ResponseField name="name" type="string" required>
+  Name of server with convetion of **environment-server-sequence** e.g.
+  `prod-api-01` `dev-listener-02`
+</ResponseField>
+
+```bash
+ansible-playbook playbooks/mariadb_server.yaml --extra-vars="name=prod-mariadb-01"
+```
+
+## Setting up reverse DNS
+
+Occasionally, when we want to limit user access from specific domain name, we need to set up the reverse DNS for our database server.
+There are 2 ways to do so :
+
+#### Set up using the ansible playbook
+
+<ResponseField name="ip" type="string" required>
+  Example: `188.165.70.161`
+</ResponseField>
+
+<ResponseField name="domain_name" type="string" required>
+  A fully qualified domain name (FQDN). Example: `dev-db-01.wiresk.org`
+  `wiresk.org`
+</ResponseField>
+
+```bash
+ansible-playbook playbooks/reverse_dns.yaml --extra-vars="domain_name=dev-db-01.wiresk.org ip=188.165.70.161"
+```
+
+### Set up reverse DNS from OVH admin console
+
+Checkout [Set up reverse DNS](https://support.us.ovhcloud.com/hc/en-us/articles/360002181530-How-to-Configure-Reverse-DNS)

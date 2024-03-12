@@ -1,0 +1,129 @@
+---
+title: Quickstart
+description: "Laravel Application to management RabbitMQ Listeners"
+---
+
+This project is used to monitor our RabbitMQ Listeners.
+
+# Installation
+
+1. Clone the repository via git
+
+```bash
+  git clone git@bitbucket.org:idcrm/wiresk_schemaconverter.git
+```
+
+2. Navigate the the project
+
+```bash
+  cd wiresk_schemaconverter
+```
+
+3. Update Environment Variable
+
+- RabbitMQ
+- SQLite
+- Semaphore
+
+4. Install Dependencies
+
+```bash
+  composer install
+```
+
+5. Run Migration
+
+```bash
+  php artisan migrate
+```
+
+# Fillament
+
+This project used [Fillament](https://filamentphp.com) as a core to quickly get a good looking web interface, so our admins like Corentin and Vincent can manually configure servers/listeners when nesccessary.
+
+<Frame>
+  <img
+    className="block dark:hidden"
+    src="images/dashboard-light.png"
+  />
+  <img className="hidden dark:block" src="images/dashboard-dark.png" />
+</Frame>
+# DB Diagrams
+
+We use SQLite as a database for this project. the schema look like the following diagram.
+
+<Frame>
+  <img src="images/db_diagram.png" />
+</Frame>
+
+## Servers
+
+Servers refers to Listener servers that are consuming messages from our RabbitMQ queues.
+Each server may have one or more listeners until the server reach its capacity.
+
+### Create a New Server
+
+<Frame>
+  <img
+    className="block dark:hidden"
+    src="images/create-server-light.png"
+  />
+  <img className="hidden dark:block" src="images/create-server-dark.png" />
+</Frame>
+
+There are 4 fields that we need to create a new server
+
+<ResponseField name="name" type="string">
+  Name of server with convetion of **environment-server-sequence** e.g.
+  `dev-listener-01` `dev-listener-02`
+</ResponseField>
+<ResponseField name="ip" type="string">
+  IPV4 of the the server `127.0.0.1` `57.128.16.206`
+</ResponseField>
+
+<ResponseField name="ram" type="number">
+  Ram capacity of the server in MB. `2048` for 2g of rams
+</ResponseField>
+
+<ResponseField name="vCPUCores" type="number">
+  CPU cores count `1`, `2` , `4`
+</ResponseField>
+
+## Listeners
+
+Listener refer to a PHP process that consumes incoming messages for a certain integration inside Wiresk.
+Each integration may have one or more number of listeners. By default, each listener take **50MBs** of ram and **5%** of CPU.
+
+### Create a New Listener
+
+<Frame>
+  <img
+    className="block dark:hidden"
+    src="images/create-listener-light.png"
+  />
+  <img
+    className="hidden dark:block"
+    src="images/create-listener-dark.png"
+  />
+</Frame>
+There are 4 fields that we need to create a new server
+
+<Info>Listener's name must be equal to queue name inside the integration.</Info>
+
+<ResponseField name="name" type="string">
+  Name of the listener. `APN`, `Odoo`, `MSDynamic`
+</ResponseField>
+<ResponseField name="baseline" type="number">
+  A baseline number of how many listeners a certain queue must have
+</ResponseField>
+
+<ResponseField name="max" type="string">
+  A maximum number of listeners
+</ResponseField>
+
+## Connections
+
+Connections are simply equivalent to conenction inside RabbitMQ. We will use the connection here to detect unintented disconnections, and perform the supervisor restart.
+
+Name of server with convetion of **queue_prefix-queue_name-sequence** e.g.
+`staging_SHOPIFY_00` `staging_SHOPIFY_01` `group_Odoo_03`

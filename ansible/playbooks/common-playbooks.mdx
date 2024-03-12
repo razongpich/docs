@@ -1,0 +1,85 @@
+---
+title: Common Playbooks
+icon: bookmark
+description: "This sections will a brief introduction on how to perform common tasks that we perform manually using ansible playbooks"
+---
+
+### Pull Latest Code
+
+```bash
+ansible-playbook playbooks/maintenance.yaml --tag="pull" -i inventory.ini
+```
+
+### Clear Cache
+
+```bash
+ansible-playbook playbooks/maintenance.yaml --tag="poc" -i inventory.ini
+```
+
+### Update ENV
+
+This playbooks could be usefull when you want to update the ENV on multiple server.
+
+<Frame>
+  <img src="images/snapshot/env-update.png" />
+</Frame>
+
+Inside this playbook (maintenance.yaml) modify the **with_items** as many variable as you prefer and then run the following scrip:
+
+```bash
+ansible-playbook playbooks/maintenance.yaml --tag="env" -i inventory.ini
+```
+
+### Deploy Supervisor
+
+Semilarly to listener server. you must configure nesscessary data to deploy listeners:
+For dev environment, the the configartion file is located in **config/env/dev_listener_env.yaml**.
+
+<ResponseField name="wiresk_back_directory" type="string" required>
+  Example: `/var/www/wiresk_back` `/var/www/f2c_group`
+</ResponseField>
+
+<ResponseField name="queue_configurations" type="queue_configurations[]" required>
+  An array of queues deployed on the listener server
+  <Expandable title="Navigation">
+    <ResponseField name="queue_name" type="string">
+    The name of the queue.
+
+    Example: `APN`, `Odoo`, `MSDynamic`
+
+    </ResponseField>
+    <ResponseField name="process_number" type="number">
+    Number of listeners
+    </ResponseField>
+
+  </Expandable>
+</ResponseField>
+
+### Set up Apache2 & SSL certificate
+
+<ResponseField name="name" type="string" required>
+  Name of server with convetion of **environment-server-sequence** e.g.
+  `dev-listener-01` `dev-listener-02`
+</ResponseField>
+```bash
+  ansible-playbook playbooks/apache_install.yaml -i inventory.ini --extra-vars="name=dev-db-01"
+```
+#### Default Properties
+
+<ResponseField name="domain" type="string" required>
+  Root of domain name. This will be used to register sub domains in Gandi
+
+  Example: `wiresk.com` `wiresk.org`
+
+</ResponseField>
+
+<ResponseField name="wiresk_back_directory" type="string" required>
+  Wiresk back-end path used to configure apache2 web proxy
+
+  Example: `/var/www/wiresk_back` `/var/www/f2c_group`
+</ResponseField>
+
+### Run Integration Test
+
+
+### Back up Database

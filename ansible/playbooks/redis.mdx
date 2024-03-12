@@ -1,0 +1,26 @@
+---
+title: "Redis"
+icon: "rectangle-code"
+description: "Redis is an open-source, high-performance, in-memory data store that serves as a key-value database, cache, and message broker."
+---
+
+## Installing Redis
+1. Ensure that your target host is exist in inventory
+1. Inside the playbooks, specify host your wanna install redis on.
+```bash
+ansible-playbook playbooks/redis.yaml -i inventory.yaml
+```
+
+## Redis Server
+
+<ResponseField name="name" type="string" required>
+  Name of server with convetion of **environment-server-sequence** e.g.
+  `prod-api-01` `dev-listener-02`
+</ResponseField>
+
+```bash
+ansible-playbook playbooks/redis_server.yaml --extra-vars="name=prod-redis-01"
+```
+
+
+

@@ -1,0 +1,104 @@
+---
+title: "Open Stack"
+icon: "Cloud"
+description: "
+OpenStack is an open-source cloud computing platform for deploying and managing infrastructure-as-a-service (IaaS) environments. The following sections will explain the steps the execute openstack playbooks."
+---
+
+<Info>**Prerequisite** You should have OVH openstack credentials & api.</Info>
+## Order a server
+
+<ResponseField name="name" type="string">
+  Name of server with convetion of **environment-server-sequence** e.g. `prod-api-01` `dev-listener-02`
+
+_Default_ : **Auto Generated**
+
+</ResponseField>
+
+<ResponseField name="flavor" type="string">
+  hardware configuration for a cloud server instance. Like 4GB 2 VCores e.g. `d2-2` `d2-4`
+
+_Default_ : **d2-2**
+
+</ResponseField>
+
+<ResponseField name="image" type="string">
+  Operating system distribution e.g. `Ubuntu 20.04` `Debian 11`
+
+_Default_ : **Debian 11**
+
+</ResponseField>
+    ### Playbook Command
+    ```bash
+    ansible-playbook playbooks/order_server.yaml --extra-vars="name=prod-api-01 image='Debian 12' flavor=d2-2"
+    ```
+
+
+## Remove a server
+
+
+<ResponseField name="name" type="string" required>
+  Name of server with convetion of **environment-server-sequence** e.g. `prod-api-01` `dev-listener-02`
+
+</ResponseField>
+    ### Playbook Command
+    ```bash
+    ansible-playbook playbooks/openstack_server_cancel.yaml --extra-vars="name=dev-listener-01"
+    ```
+
+## Default Properties
+
+<ResponseField name="key_name" type="string" required>
+  Openstack keypair that's being used
+
+Example: `COCO_SSH_KEY`
+
+</ResponseField>
+
+<ResponseField name="domain" type="string" required>
+  root of domain name. This will be used to register sub domains in Gandi
+
+Example: `wiresk.com` `wiresk.org`
+
+</ResponseField>
+
+<ResponseField name="gandi_api_key" type="string" required>
+  Example: `gandi_api_key_value`
+</ResponseField>
+
+<ResponseField name="OS_AUTH_URL" type="string" required>
+  Example: `https://auth.cloud.ovh.net/v3`
+</ResponseField>
+
+<ResponseField name="OS_REGION_NAME" type="string" required>
+  Example: `GRA11`
+</ResponseField>
+
+<ResponseField name="OS_IDENTITY_API_VERSION" type="number" required>
+  Example: `3`
+</ResponseField>
+
+<ResponseField name="OS_USER_DOMAIN_NAME" type="string" required>
+  Example: `Default`
+</ResponseField>
+
+<ResponseField name="OS_PROJECT_DOMAIN_NAME" type="string" required>
+  Example: `Default`
+</ResponseField>
+
+<ResponseField name="OS_TENANT_NAME" type="string" required>
+  Example: `FAKE-907994325103122351`
+</ResponseField>
+
+<ResponseField name="OS_USERNAME" type="string" required>
+  Example: `FAKE-32932713kg`
+</ResponseField>
+
+<ResponseField name="OS_PASSWORD" type="string" required>
+  Example: `FAKE-Yca5TQ3afdafada213vpXpmGvfZX7YbP9`
+</ResponseField>
+
+<ResponseField name="OS_TENANT_ID" type="string" required>
+  Example: `FAKE-28b411f96fdafdafa283cf99a77`
+</ResponseField>
+

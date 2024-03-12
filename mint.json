@@ -1,60 +1,85 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Wiresk",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/logo/wiresk_dark.svg",
+    "light": "/logo/wiresk_light.svg"
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#006400",
+    "light": "#9ACD32",
+    "dark": "#004d00",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#004d00",
+      "to": "#9ACD32"
     }
   },
+
   "topbarLinks": [
     {
-      "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "name": "Semaphore Admin",
+      "url": "https://dev-openstack-poc-01.wiresk.org"
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "Listener Management",
+    "url": "https://lm.wiresk.org/admin"
   },
   "tabs": [
     {
-      "name": "API Reference",
-      "url": "api-reference"
-    }
-  ],
-  "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "name": "Learn",
+      "url": "ansible"
     },
     {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
+      "name": "Semaphore",
+      "url": "semaphore"
     },
     {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "name": "Listener Management",
+      "url": "listener_management"
     }
   ],
   "navigation": [
     {
-      "group": "Get Started",
+      "group": "Ansible",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "ansible/introduction",
+        {
+          "group": "Playbooks",
+          "pages": [
+            "ansible/playbooks",
+            "ansible/playbooks/redis",
+            "ansible/playbooks/mariadb",
+            "ansible/playbooks/openstack",
+            "ansible/playbooks/rabbitmq",
+            "ansible/playbooks/wiresk-back",
+            "ansible/playbooks/common-playbooks"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Semaphore",
+      "pages": [
+        "semaphore/introduction",
+        {
+          "group": "User Guide",
+          "pages": [
+            "semaphore/task",
+            "semaphore/key_store",
+            "semaphore/repository",
+            "semaphore/inventory",
+            "semaphore/environment"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Listener Management",
+      "pages": [
+        "listener_management/introduction",
+        "listener_management/artisan_command"
       ]
     },
     {
@@ -67,25 +92,11 @@
         "essentials/navigation",
         "essentials/reusable-snippets"
       ]
-    },
-    {
-      "group": "API Documentation",
-      "pages": [
-        "api-reference/introduction"
-      ]
-    },
-    {
-      "group": "Endpoint Examples",
-      "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
-      ]
     }
   ],
   "footerSocials": {
-    "twitter": "https://twitter.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "twitter": "https://wiresk.com",
+    "github": "https://wiresk.com",
+    "linkedin": "https://wiresk.com"
   }
 }

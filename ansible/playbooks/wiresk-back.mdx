@@ -1,0 +1,84 @@
+---
+title: "Wiresk API"
+icon: code
+description: "This project enables the serving of OData (Open Data Protocol) from a Laravel application, allowing for standardized and efficient data exchange between different systems through a RESTful API."
+---
+
+## Project Stacks
+
+- PHP 8.2
+- Laravel 10
+- Apache2
+- MariaDB
+- RabbitMQ
+- Redis
+
+## Install everything in 1 server
+
+You can install every services in one server semilarly to our Dev & Staging with the following steps
+
+1. Define every environment variable inside the config (config/env/main.yaml)
+   - Variable for all ansible services (mariadb, redis, rabbitmq, apache2)
+   - Variable for wiresk_back project.
+2. Ensure that your target host is exist in inventory
+3. Inside the playbooks, specify the target host (default : ansible_target).
+   <ResponseField name="name" type="string" required>
+     Name of server with convetion of **environment-server-sequence** e.g.
+     `prod-api-01` `dev-listener-02`
+   </ResponseField>
+
+```bash
+ansible-playbook playbooks/wiresk_stack.yaml -i inventory.yaml --extra-vars="name=prod-redis-01"
+```
+
+## Install as Listener
+
+In production, This project also serves as a listener to process messages from RabbitMQ.So we have a sepaerate playbook to only set that up.
+
+<Info>This playbook will often use for auto scaling solution</Info>
+
+<ResponseField name="name" type="string" required>
+  Name of server with convetion of **environment-server-sequence** e.g.
+  `dev-listener-01` `dev-listener-02`
+</ResponseField>
+
+<ResponseField name="queue_prefix" type="string" required>
+  Example: `group_` `prod_`
+</ResponseField>
+
+<ResponseField name="wiresk_back_directory" type="string" required>
+  Example: `/var/www/wiresk_back` `/var/www/f2c_group`
+</ResponseField>
+
+<ResponseField name="branch" type="string" required>
+  Example: `group` `odata-prod`
+</ResponseField>
+
+<ResponseField name="queue_configurations" type="queue_configurations[]" required>
+  An array of queues deployed on the listener server
+  <Expandable title="Navigation">
+    <ResponseField name="queue_name" type="string">
+    The name of the queue.
+
+    Example: `APN`, `Odoo`, `MSDynamic`
+
+    </ResponseField>
+    <ResponseField name="process_number" type="number">
+    Number of listeners
+    </ResponseField>
+
+  </Expandable>
+</ResponseField>
+
+```bash
+ ansible-playbook playbooks/listener_server.yaml --extra-vars="name=prod-redis-01"
+```
+
+The following playbooks will perform the following tasks
+
+- Order a new server
+- Install PHP
+- Install Wiresk back-end on it
+- Install supervisor
+- Configure Queue process
+

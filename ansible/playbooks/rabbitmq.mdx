@@ -1,0 +1,32 @@
+---
+title: "RabbitMQ"
+description: "RabbitMQ is an open-source message broker that facilitates communication between applications by providing a reliable and scalable messaging system"
+icon: message
+---
+
+## Installing RabbitMQ
+
+<Info>This playbook depends on a community role [Ansible RabbitMQ](https://github.com/rockandska/ansible-role-rabbitmq)</Info>
+
+1. Ensure that your target host is exist in inventory
+2. Inside the playbooks, specify host your wanna install redis on.
+
+<ResponseField name="rabitmq_user" type="string" required>
+  Example: `full_access`
+</ResponseField>
+
+<ResponseField name="rabbitmq_password" type="string" required>
+  Example: `1234`
+</ResponseField>
+
+```bash
+    ansible-playbook playbooks/rabbitmq.yaml -i inventory.ini
+```
+
+The following playbooks will perform the following tasks
+
+- Install RabbitMQ
+- Configure privilege
+- Install Plugin
+    - RabbitMQ Management
+
