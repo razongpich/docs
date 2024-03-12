@@ -38,6 +38,17 @@ ansible-galaxy role install -r roles/requirements.yml
 
 ```
 
+## Credential Files
+
+All configuration values are location inside config/env which are not being included in git. Make sure you copy everything into the directory first.
+
+1. Navigate to your credential folder
+2. Copy into the ansible projects with the following command (Change the path depending on your need)
+
+```bash
+scp -R ./* debian@dev-openstack-poc-01.wiresk.org:/home/debian/wiresk-ansible/config/env/
+```
+
 ## Collections
 
 Ansible collection provides a set of commonly used functionalities for configuration management, automation, and orchestration tasks.
