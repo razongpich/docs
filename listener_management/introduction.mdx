@@ -19,7 +19,7 @@ This project is used to monitor our RabbitMQ Listeners.
   cd wiresk_schemaconverter
 ```
 
-3. Update Environment Variable
+3. Update Environment Variable (Following .env.example)
 
 - RabbitMQ
 - SQLite
@@ -48,15 +48,19 @@ This project used [Fillament](https://filamentphp.com) as a core to quickly get 
   />
   <img className="hidden dark:block" src="/images/dashboard-dark.png" />
 </Frame>
+## Create User
+Create an administrator account for your admin panel by running
+```bash 
+php artisan make:filament-user
+```
+
+
 # DB Diagrams
 
 We use SQLite as a database for this project. the schema look like the following diagram.
 
 <Frame>
   <img src="/images/db_diagram.png" />
-</Frame>
-<Frame>
-  <img src="/images/test.png" />
 </Frame>
 
 ## Servers
