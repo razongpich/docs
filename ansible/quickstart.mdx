@@ -1,86 +1,133 @@
 ---
-title: 'Quickstart'
-description: 'Start building awesome documentation in under 5 minutes'
+title: Quick Start
+description: "Ansible is an open-source automation tool that simplifies the process of IT infrastructure management, application deployment, and task automation."
 ---
+
+<Info>
+  **Prerequisite** You should have installed Python (version 3.9 or higher).
+</Info>
 
 ## Setup your development
 
-Learn how to update your docs locally and and deploy them to the public.
+Learn how to set update development environment for wiresk ansible locally.
 
-### Edit and preview
+Step 1. Begin by creating a bare clone of the repository.
 
-<AccordionGroup>
-  <Accordion icon="github" title="Clone your docs locally">
-    During the onboarding process, we created a repository on your Github with
-    your docs content. You can find this repository on our
-    [dashboard](https://dashboard.mintlify.com). To clone the repository
-    locally, follow these
-    [instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-    in your terminal.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Preview changes">
-    Previewing helps you make sure your changes look as intended. We built a
-    command line interface to render these changes locally. 1. Install the
-    [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the
-    documentation changes locally with this command: ``` npm i -g mintlify ```
-    2. Run the following command at the root of your documentation (where
-    `mint.json` is): ``` mintlify dev ```
-  </Accordion>
-</AccordionGroup>
+```bash
+git clone git@bitbucket.org:idcrm/wiresk-ansible.git
+```
 
-### Deploy your changes
+Step 2. Navigate into the project
 
-<AccordionGroup>
+```bash
+cd wiresk-ansible
+```
 
-<Accordion icon="message-bot" title="Install our Github app">
-  Our Github app automatically deploys your changes to your docs site, so you
-  don't need to manage deployments yourself. You can find the link to install on
-  your [dashboard](https://dashboard.mintlify.com). Once the bot has been
-  successfully installed, there should be a check mark next to the commit hash
-  of the repo.
-</Accordion>
-<Accordion icon="rocket" title="Push your changes">
-  [Commit and push your changes to
-  Git](https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository#about-git-push)
-  for your changes to update in your docs site. If you push and don't see that
-  the Github app successfully deployed your changes, you can also manually
-  update your docs through our [dashboard](https://dashboard.mintlify.com).
-</Accordion>
+### Roles
 
-</AccordionGroup>
+In Ansible, roles are a way to organize and package automation content for reusability. They provide a standardized directory structure, including folders for defaults, variables, tasks, handlers, and more. The following list is the community roles used in Wiresk Ansible
 
-## Update your docs
+1. [PHP](https://galaxy.ansible.com/geerlingguy/php).
+2. [PHP Version](https://galaxy.ansible.com/geerlingguy/php-versions)
+3. [Composer](https://galaxy.ansible.com/geerlingguy/composer)
+4. [Maria DB](https://galaxy.ansible.com/bertvv/mariadb)
+5. [Rabbit MQ](https://galaxy.ansible.com/rockandska/rabbitmq)
 
-Add content directly in your files with MDX syntax and React components. You can use any of our components, or even build your own.
+```bash
+ansible-galaxy role install -r roles/requirements.yml
 
-<CardGroup>
+```
 
-<Card title="Style Your Docs" icon="paintbrush" href="/settings/global">
-  Add flair to your docs with personalized branding.
-</Card>
+## Credential Files
 
-<Card
-  title="Add API Endpoints"
-  icon="square-code"
-  href="/api-playground/configuration"
->
-  Implement your OpenAPI spec and enable API user interaction.
-</Card>
+All configuration values are location inside config/env which are not being included in git. Make sure you copy everything into the directory first.
 
-<Card
-  title="Integrate Analytics"
-  icon="chart-mixed"
-  href="/analytics/supported-integrations"
->
-  Draw insights from user interactions with your documentation.
-</Card>
+1. Navigate to your credential folder
+2. Copy into the ansible projects with the following command (Change the path depending on your need)
 
-<Card
-  title="Host on a Custom Domain"
-  icon="browser"
-  href="/settings/custom-domain/subdomain"
->
-  Keep your docs on your own website's subdomain.
-</Card>
+```bash
+scp -R ./* debian@dev-openstack-poc-01.wiresk.org:/home/debian/wiresk-ansible/config/env/
+```
 
-</CardGroup>
+## Collections
+
+Ansible collection provides a set of commonly used functionalities for configuration management, automation, and orchestration tasks.
+The following list is the community collections used in Wiresk Ansible:
+
+<Info>
+  **Prerequisite** You should have installed Python Openstack Client. [Preparing
+  an environment for using the OpenStack
+  API](https://help.ovhcloud.com/csm/en-public-cloud-compute-prepare-openstack-api-environment?id=kb_article_view&sysparm_article=KB0050988).
+</Info>
+1. [Openstack Cloud](https://docs.ansible.com/ansible/latest/collections/openstack/cloud/index.html).
+2. [Community Generate](https://docs.ansible.com/ansible/latest/collections/community/general/index.html)
+
+```bash
+ansible-galaxy collection install -r playbooks/collection/requirements.yml
+```
+
+### Other Dependenices
+
+Wiresk Ansible contain PHP script to perform API request along side a few packaes, So we need to composer dependenices by the following command
+
+```bash
+composer install
+```
+
+## Inventory
+
+An Ansible inventory is a configuration file specifying hosts and their details. It helps Ansible manage and execute tasks on designated hosts, serving as a key component in configuration management and automation. Here's how Wiresk Inventory should looks like
+
+<Info>
+You must also ensure that your public SSH key is added to the authorized_keys file on each host
+</Info>
+<CodeGroup>
+
+```yaml Inventory.yaml
+all:
+  hosts:
+    control_server:
+      ansible_host: control_server_ip
+    mariadb_server:
+      ansible_host: mariadb_server_ip
+    caching_server:
+      ansible_host: rabbitmq_server_ip
+    proxy_server:
+      ansible_host: load_balancer_ip
+    api_servers:
+      ansible_host:
+        - api_server1_ip
+        - api_server2_ip
+    listeners_servers:
+      ansible_host:
+        - listener_server1_ip
+        - listener_server2_ip
+  children:
+    application_servers:
+      hosts:
+        api_servers:
+        listeners_servers:
+```
+
+```ini Inventory.ini
+[control_server]
+control ansible_host=mariadb_server_ip
+[mariadb_server]
+mariadb_server ansible_host=mariadb_server_ip
+[caching_server]
+rabbitmq_server ansible_host=rabbitmq_server_ip
+[proxy_server]
+load_balancer ansible_host=load_balancer_ip
+[api_servers]
+api_server1 ansible_host=api_server1_ip
+api_server2 ansible_host=api_server2_ip
+[listeners_servers]
+listener_server1 ansible_host=listener_server1_ip
+listener_server2 ansible_host=listener_server2_ip
+[application_servers:children]
+api_servers
+listeners_servers
+
+```
+
+</CodeGroup>
