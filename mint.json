@@ -2,82 +2,82 @@
   "$schema": "https://mintlify.com/schema.json",
   "name": "Wiresk",
   "logo": {
-    "dark": "/logo/wiresk.png",
-    "light": "/logo/wiresk.png"
+      "dark": "/logo/wiresk.png",
+      "light": "/logo/wiresk.png"
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#a83c32",
-    "light": "#FF6347",
-    "dark": "#8B0000",
-    "anchors": {
-      "from": "#8B0000",
-      "to": "#FF6347"
-    }
+      "primary": "#a83c32",
+      "light": "#FF6347",
+      "dark": "#8B0000",
+      "anchors": {
+          "from": "#8B0000",
+          "to": "#FF6347"
+      }
   },
   "topbarLinks": [
-    {
-      "name": "Semaphore Admin",
-      "url": "https://dev-openstack-poc-01.wiresk.org"
-    }
+      {
+          "name": "Semaphore Admin",
+          "url": "https://dev-openstack-poc-01.wiresk.org"
+      }
   ],
   "topbarCtaButton": {
-    "name": "Listener Management",
-    "url": "https://lm.wiresk.org/admin"
+      "name": "Listener Management",
+      "url": "https://lm.wiresk.org/admin"
   },
   "tabs": [],
   "navigation": [
-    {
-      "group": "Ansible",
-      "pages": [
-        "ansible/quickstart",
-        {
-          "group": "Playbooks",
+      {
+          "group": "Ansible",
           "pages": [
-            "ansible/playbooks",
-            "ansible/playbooks/redis",
-            "ansible/playbooks/mariadb",
-            "ansible/playbooks/openstack",
-            "ansible/playbooks/rabbitmq",
-            "ansible/playbooks/wiresk-back",
-            "ansible/playbooks/common-playbooks"
+              "ansible/quickstart",
+              {
+                  "group": "Playbooks",
+                  "pages": [
+                      "ansible/playbooks",
+                      "ansible/playbooks/redis",
+                      "ansible/playbooks/mariadb",
+                      "ansible/playbooks/openstack",
+                      "ansible/playbooks/rabbitmq",
+                      "ansible/playbooks/wiresk-back",
+                      "ansible/playbooks/common-playbooks"
+                  ]
+              }
           ]
-        }
-      ]
-    },
-    {
-      "group": "Semaphore",
-      "pages": [
-        "semaphore/quickstart",
-        "semaphore/task",
-        "semaphore/key_store",
-        "semaphore/repository",
-        "semaphore/inventory",
-        "semaphore/environment"
-      ]
-    },
-    {
-      "group": "Listener Management",
-      "pages": [
-        "listener_management/introduction",
-        "listener_management/artisan_command"
-      ]
-    },
-    {
-      "group": "Essentials",
-      "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
-      ]
-    }
+      },
+      {
+          "group": "Semaphore",
+          "pages": [
+              "semaphore/quickstart",
+              "semaphore/task",
+              "semaphore/key_store",
+              "semaphore/repository",
+              "semaphore/inventory",
+              "semaphore/environment"
+          ]
+      },
+      {
+          "group": "Listener Management",
+          "pages": [
+              "listener_management/introduction",
+              "listener_management/artisan_command"
+          ]
+      },
+      {
+          "group": "Essentials",
+          "pages": [
+              "essentials/markdown",
+              "essentials/code",
+              "essentials/images",
+              "essentials/settings",
+              "essentials/navigation",
+              "essentials/reusable-snippets"
+          ]
+      }
   ],
   "footerSocials": {
-    "twitter": "https://wiresk.com",
-    "github": "https://wiresk.com",
-    "linkedin": "https://wiresk.com"
+      "twitter": "https://wiresk.com",
+      "github": "https://wiresk.com",
+      "linkedin": "https://wiresk.com"
   }
 }

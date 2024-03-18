@@ -31,7 +31,32 @@ You can install every services in one server semilarly to our Dev & Staging with
 ansible-playbook playbooks/wiresk_stack.yaml -i inventory.yaml --extra-vars="name=prod-redis-01"
 ```
 
-## Install as Listener
+## Install as API Only
+
+```bash
+ansible-playbook playbooks/api_install.yaml -i inventory.ini --extra-vars="name=dev-openstack-poc-03"
+```
+
+The playbooks will perform the following tasks
+
+- Install PHP
+- Install Wiresk back-end on it
+- Configure Apache and Certiciate
+
+## Install as Listener Only
+
+```bash
+ansible-playbook playbooks/listener_install.yaml -i inventory.ini --extra-vars="name=dev-openstack-poc-03"
+```
+
+The playbooks will perform the following tasks
+
+- Install PHP
+- Install Wiresk back-end on it
+- Install Supervisor
+- Set up Queues
+
+## Deploy a New Listener Server
 
 In production, This project also serves as a listener to process messages from RabbitMQ.So we have a sepaerate playbook to only set that up.
 
@@ -71,7 +96,7 @@ In production, This project also serves as a listener to process messages from R
 </ResponseField>
 
 ```bash
- ansible-playbook playbooks/listener_server.yaml --extra-vars="name=prod-redis-01"
+ ansible-playbook playbooks/listener_server.yaml --extra-vars="name=prod-redis-01 type=listener"
 ```
 
 The following playbooks will perform the following tasks
@@ -82,3 +107,15 @@ The following playbooks will perform the following tasks
 - Install supervisor
 - Configure Queue process
 
+## Deploy a New API Server
+
+```bash
+ ansible-playbook playbooks/api_server.yaml --extra-vars="name=prod-redis-01 type=api"
+```
+
+The following playbooks will perform the following tasks
+
+- Order a new server
+- Install PHP
+- Install Wiresk back-end on it
+- Configure Apache and Certiciate

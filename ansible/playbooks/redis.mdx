@@ -7,6 +7,10 @@ description: "Redis is an open-source, high-performance, in-memory data store th
 ## Installing Redis
 1. Ensure that your target host is exist in inventory
 2. Inside the playbooks, specify host your wanna install redis on.
+
+<ResponseField name="redis_password" type="string" required>
+  Set redis password to require pass.
+</ResponseField>
 ```bash
 ansible-playbook playbooks/redis.yaml -i inventory.yaml
 ```

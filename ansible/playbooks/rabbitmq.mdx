@@ -6,6 +6,11 @@ icon: message
 
 ## Installing RabbitMQ
 
+<Warning>
+  {" "}
+  Note: This playbook still has problem with Debain 12 (Bookworm){" "}
+</Warning>
+
 <Info>This playbook depends on a community role [Ansible RabbitMQ](https://github.com/rockandska/ansible-role-rabbitmq)</Info>
 
 1. Ensure that your target host is exist in inventory
@@ -16,6 +21,10 @@ icon: message
 </ResponseField>
 
 <ResponseField name="rabbitmq_password" type="string" required>
+  Example: `1234`
+</ResponseField>
+
+<ResponseField name="rabbitmq_vhost" type="string">
   Example: `1234`
 </ResponseField>
 

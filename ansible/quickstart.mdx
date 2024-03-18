@@ -35,21 +35,33 @@ In Ansible, roles are a way to organize and package automation content for reusa
 
 ```bash
 ansible-galaxy role install -r roles/requirements.yml
-
 ```
 
-## Credential Files
+### Credential Files
 
 All configuration values are location inside config/env which are not being included in git. Make sure you copy everything into the directory first.
 
 1. Navigate to your credential folder
-2. Copy into the ansible projects with the following command (Change the path depending on your need)
+2. Set up working Credential
 
+<AccordionGroup>
+  <Accordion title="Copy Local Files">
+Copy into the ansible projects with the following command (Change the path depending on your need)
 ```bash
 scp -R ./* debian@dev-openstack-poc-01.wiresk.org:/home/debian/wiresk-ansible/config/env/
 ```
+  </Accordion>
 
-## Collections
+<Accordion title="Copy From example files" icon="alien-8bit">
+```bash
+cp example.main.yaml main.yaml
+```
+</Accordion>
+
+</AccordionGroup>
+
+
+### Collections
 
 Ansible collection provides a set of commonly used functionalities for configuration management, automation, and orchestration tasks.
 The following list is the community collections used in Wiresk Ansible:
@@ -66,6 +78,11 @@ The following list is the community collections used in Wiresk Ansible:
 ansible-galaxy collection install -r playbooks/collection/requirements.yml
 ```
 
+### SSH KEY 
+1. ssh-keygen -t rsa -b 2048 -C "your_email@example.com"
+2. openstack keypair create --public-key /path/to/your/public_key.pub ANSIBLE_KEY
+3. Update credential /path/to/your/public_key.pub in ansible.cfg
+
 ### Other Dependenices
 
 Wiresk Ansible contain PHP script to perform API request along side a few packaes, So we need to composer dependenices by the following command
@@ -74,7 +91,7 @@ Wiresk Ansible contain PHP script to perform API request along side a few packae
 composer install
 ```
 
-## Inventory
+### Inventory
 
 An Ansible inventory is a configuration file specifying hosts and their details. It helps Ansible manage and execute tasks on designated hosts, serving as a key component in configuration management and automation. Here's how Wiresk Inventory should looks like
 
